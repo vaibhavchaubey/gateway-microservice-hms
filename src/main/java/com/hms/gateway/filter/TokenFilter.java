@@ -37,7 +37,7 @@ public class TokenFilter extends AbstractGatewayFilterFactory<TokenFilter.Config
 
             String authHeader = headers.getFirst(HttpHeaders.AUTHORIZATION);
 
-            if (authHeader == null || !authHeader.startsWith("Bearer")) {
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 throw new RuntimeException("Invalid Authorization header format");
             }
 
@@ -53,6 +53,7 @@ public class TokenFilter extends AbstractGatewayFilterFactory<TokenFilter.Config
             }
 
             exchange = exchange.mutate().request(r -> r.header("X-Secret-Key", "SECRET")).build();
+            System.out.println("Token " + token);
 
             return chain.filter(exchange);
         };
